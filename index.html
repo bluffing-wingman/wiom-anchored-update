@@ -197,6 +197,18 @@
   /* ===== FOOTER ===== */
   footer { padding: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,.06); font-size: 13px; color: var(--grey-600); }
   footer strong { color: var(--brand); }
+
+  /* ===== CHART PANELS ===== */
+  .chart-panel {
+    background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px; padding: 28px 24px 16px; box-shadow: 0 16px 48px rgba(0,0,0,.3);
+    position: relative;
+  }
+  .chart-panel-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(255,255,255,.35); margin-bottom: 8px;
+  }
+  .chart-wrap { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 1100px; }
 </style>
 </head>
 <body>
@@ -257,9 +269,9 @@
       <p>Of the people who renewed post free plan on 'X' day, how many called Wiom from installation to renewal</p>
     </div>
   </div>
-  <div class="img-frame rv d3" onclick="openLB(this.querySelector('img').src)">
-    <img src="slides2/slide-2.png" alt="Objectives X Trends - Clarity Charts" loading="lazy">
-    <div class="zoom-btn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+  <div class="chart-panel rv d3" style="width:100%;max-width:1100px;">
+    <div class="chart-panel-title">Clarity % &mdash; February 2026</div>
+    <div style="height:380px;position:relative;"><canvas id="clarityChart"></canvas></div>
   </div>
 </section>
 
@@ -271,9 +283,15 @@
     <div class="stat-pill"><div class="stat-num purple" data-target="6" data-from="19">19</div><div class="stat-desc">% Booking<br>Contamination</div></div>
     <div class="stat-pill"><div class="stat-num yellow" data-target="16" data-from="3">3</div><div class="stat-desc">% Install<br>Contamination</div></div>
   </div>
-  <div class="img-frame rv d3" onclick="openLB(this.querySelector('img').src)">
-    <img src="slides2/slide-3.png" alt="Contamination & Bug Trends" loading="lazy">
-    <div class="zoom-btn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+  <div class="chart-wrap rv d3">
+    <div class="chart-panel">
+      <div class="chart-panel-title">Contamination % &mdash; February 2026</div>
+      <div style="height:260px;position:relative;"><canvas id="contaminationChart"></canvas></div>
+    </div>
+    <div class="chart-panel">
+      <div class="chart-panel-title">Bug Count / Day &mdash; February 2026</div>
+      <div style="height:220px;position:relative;"><canvas id="bugsChart"></canvas></div>
+    </div>
   </div>
 </section>
 
@@ -501,6 +519,91 @@
       requestAnimationFrame(tick);
     }
   }), {threshold:.5}).observe(el));
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<script>
+  Chart.register(ChartDataLabels);
+  Chart.defaults.color = 'rgba(255,255,255,.45)';
+  Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
+  Chart.defaults.font.family = "'Inter',sans-serif";
+
+  function mg(ctx,h,r,g,b,a1,a2){var gr=ctx.createLinearGradient(0,0,0,h);gr.addColorStop(0,'rgba('+r+','+g+','+b+','+a1+')');gr.addColorStop(1,'rgba('+r+','+g+','+b+','+a2+')');return gr;}
+  var dg={color:'rgba(255,255,255,.04)'}, dt={color:'rgba(255,255,255,.35)',font:{size:11}};
+  var tt={backgroundColor:'rgba(22,16,33,.95)',titleFont:{size:13,weight:'700'},bodyFont:{size:12},padding:14,cornerRadius:10,borderColor:'rgba(255,255,255,.1)',borderWidth:1};
+  var lgn={position:'top',labels:{color:'rgba(255,255,255,.7)',font:{size:12,weight:'600'},padding:16,usePointStyle:true,pointStyleWidth:10}};
+  function dlCfg(fmtFn){return{display:'auto',align:'top',anchor:'end',color:function(c){return c.dataset.borderColor;},font:{size:9,weight:'700'},formatter:fmtFn,offset:4,padding:{top:2}};}
+
+  // 1. Clarity Chart
+  (function(){
+    var c=document.getElementById('clarityChart'); if(!c)return;
+    var ctx=c.getContext('2d');
+    new Chart(ctx,{
+      type:'line',
+      data:{
+        labels:['7 Feb','8','9','10','11','12','13','14','15','16','17','18','19','20 Feb'],
+        datasets:[
+          {label:'Booking Clarity',data:[79,75,77,76,72,70,75,77,75,80,64,76,81,80],borderColor:'#4dd0e1',backgroundColor:mg(ctx,380,77,208,225,.18,0),fill:true,tension:.4,pointRadius:4,pointHoverRadius:8,borderWidth:2.5,pointBackgroundColor:'#4dd0e1'},
+          {label:'Install Clarity',data:[53,49,48,60,52,49,39,50,35,40,59,43,63,40],borderColor:'#ff6b9d',backgroundColor:mg(ctx,380,255,107,157,.12,0),fill:true,tension:.4,pointRadius:4,pointHoverRadius:8,borderWidth:2.5,pointBackgroundColor:'#ff6b9d'},
+          {label:'First Renewal Clarity',data:[69,70,82,62,72,81,55,70,65,77,78,68,69,95],borderColor:'#66bb6a',backgroundColor:mg(ctx,380,102,187,106,.12,0),fill:true,tension:.4,pointRadius:4,pointHoverRadius:8,borderWidth:2.5,pointBackgroundColor:'#66bb6a'}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        animation:{duration:1200,easing:'easeOutQuart'},
+        plugins:{legend:lgn,tooltip:Object.assign({},tt,{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y+'%';}}}),datalabels:dlCfg(function(v){return v+'%';})},
+        scales:{x:{grid:dg,ticks:dt},y:{min:0,max:100,grid:dg,ticks:Object.assign({},dt,{stepSize:20,callback:function(v){return v+'%';}})}}
+      }
+    });
+  })();
+
+  // 2. Contamination Chart
+  (function(){
+    var c=document.getElementById('contaminationChart'); if(!c)return;
+    var ctx=c.getContext('2d');
+    new Chart(ctx,{
+      type:'line',
+      data:{
+        labels:['1 Feb','2','3','4','5','6','7','8','9','10','11','12','13','14','15 Feb'],
+        datasets:[
+          {label:'Booking Contamination',data:[9,6.25,7.79,9.86,13.51,13.04,4.69,18.6,11.46,12.5,10,12.5,6.06,11.11,5.88],borderColor:'#b388ff',backgroundColor:mg(ctx,260,179,136,255,.18,0),fill:true,tension:.4,pointRadius:4,pointHoverRadius:8,borderWidth:2.5,pointBackgroundColor:'#b388ff'},
+          {label:'Install Contamination',data:[10.71,3.13,11.11,4.35,3.57,11.54,17.65,19.51,4,18.75,15.38,13.64,12.5,21.74,15.79],borderColor:'#ffb74d',backgroundColor:mg(ctx,260,255,183,77,.15,0),fill:true,tension:.4,pointRadius:4,pointHoverRadius:8,borderWidth:2.5,pointBackgroundColor:'#ffb74d'}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        animation:{duration:1200,easing:'easeOutQuart'},
+        plugins:{legend:lgn,tooltip:Object.assign({},tt,{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y+'%';}}}),datalabels:dlCfg(function(v){return v+'%';})},
+        scales:{x:{grid:dg,ticks:dt},y:{min:0,max:25,grid:dg,ticks:Object.assign({},dt,{stepSize:5,callback:function(v){return v+'%';}})}}
+      }
+    });
+  })();
+
+  // 3. Bug Count Chart
+  (function(){
+    var c=document.getElementById('bugsChart'); if(!c)return;
+    var ctx=c.getContext('2d');
+    new Chart(ctx,{
+      type:'line',
+      data:{
+        labels:['7 Feb','8','9','10','11','12','13','14','15','16','17','18','19','20 Feb'],
+        datasets:[{
+          label:'Bugs / Day',data:[12,12,9,7,12,17,14,8,14,12,20,10,15,14],
+          borderColor:'#82b1ff',backgroundColor:mg(ctx,220,130,177,255,.2,0),
+          fill:true,tension:.4,pointRadius:5,pointHoverRadius:9,borderWidth:2.5,pointBackgroundColor:'#82b1ff'
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        animation:{duration:1200,easing:'easeOutQuart'},
+        plugins:{legend:{display:false},tooltip:tt,datalabels:{display:true,align:'top',anchor:'end',color:'#82b1ff',font:{size:10,weight:'700'},formatter:function(v){return v;},offset:4}},
+        scales:{x:{grid:dg,ticks:dt},y:{min:0,max:25,grid:dg,ticks:Object.assign({},dt,{stepSize:5})}}
+      }
+    });
+  })();
 </script>
 </body>
 </html>
