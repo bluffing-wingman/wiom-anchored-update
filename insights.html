@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiom Anchored — Weekly Brief | 20 Feb 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --brand: #D9008D; --brand-light: #FDE8F4;
+    --dark: #161021; --grey-900: #1E1A2B; --grey-700: #443D56; --grey-600: #665E75;
+    --grey-500: #A7A1B2; --grey-400: #D7D3E0; --grey-300: #E8E4F0;
+    --grey-200: #F3F1F7; --grey-100: #FAF9FC; --white: #FFFFFF;
+    --positive: #008043; --positive-light: #E6F5ED; --positive-bg: #F0FAF5;
+    --negative: #E01E00; --negative-light: #FDE8E5; --negative-bg: #FFF5F3;
+    --warning: #FF8000; --warning-light: #FFF3E5; --warning-bg: #FFFAF3;
+    --info: #6D17CE; --info-light: #F0E5FF;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--grey-100); color: var(--dark);
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--white); border-bottom: 1px solid var(--grey-300);
+    padding: 20px 32px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-logo { font-weight: 900; font-size: 20px; color: var(--brand); }
+  .header-sep { width: 1px; height: 24px; background: var(--grey-300); }
+  .header-title { font-size: 15px; font-weight: 600; color: var(--dark); }
+  .header-date { font-size: 13px; color: var(--grey-600); font-weight: 500; }
+  .header-link {
+    text-decoration: none; font-size: 13px; font-weight: 600;
+    color: var(--brand); padding: 8px 18px; border-radius: 8px;
+    border: 1px solid var(--brand); transition: all .2s;
+  }
+  .header-link:hover { background: var(--brand); color: white; }
+
+  /* ===== CONTAINER ===== */
+  .container { max-width: 1080px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* ===== SECTION ===== */
+  .section { margin-bottom: 40px; }
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--grey-500); margin-bottom: 6px;
+  }
+  .section-heading {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--dark);
+    margin-bottom: 20px;
+  }
+
+  /* ===== TL;DR CARDS ===== */
+  .tldr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tldr-card {
+    background: var(--white); border-radius: 12px; padding: 24px;
+    border: 1px solid var(--grey-300); position: relative; overflow: hidden;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .tldr-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); transform: translateY(-2px); }
+  .tldr-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .tldr-card.green::before { background: var(--positive); }
+  .tldr-card.red::before { background: var(--negative); }
+  .tldr-card .tldr-icon {
+    width: 36px; height: 36px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 18px; margin-bottom: 14px;
+  }
+  .tldr-card.green .tldr-icon { background: var(--positive-bg); }
+  .tldr-card.red .tldr-icon { background: var(--negative-bg); }
+  .tldr-metric { font-size: 26px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 6px; }
+  .tldr-card.green .tldr-metric { color: var(--positive); }
+  .tldr-card.red .tldr-metric { color: var(--negative); }
+  .tldr-desc { font-size: 13px; color: var(--grey-600); line-height: 1.5; }
+  .tldr-desc strong { color: var(--dark); }
+
+  /* ===== SCORECARD ===== */
+  .scorecard {
+    background: var(--white); border-radius: 12px; border: 1px solid var(--grey-300);
+    overflow: hidden;
+  }
+  .scorecard table { width: 100%; border-collapse: collapse; }
+  .scorecard thead th {
+    padding: 14px 20px; text-align: left; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--grey-600);
+    background: var(--grey-200); border-bottom: 1px solid var(--grey-300);
+  }
+  .scorecard tbody td {
+    padding: 14px 20px; font-size: 14px; border-bottom: 1px solid var(--grey-200);
+    vertical-align: middle;
+  }
+  .scorecard tbody tr:last-child td { border-bottom: none; }
+  .scorecard tbody tr:hover td { background: var(--grey-100); }
+  .scorecard .metric-name { font-weight: 600; color: var(--dark); }
+  .scorecard .metric-val { font-weight: 700; }
+  .scorecard .trend { font-size: 13px; color: var(--grey-600); }
+  .status-dot {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .status-dot::before {
+    content: ''; width: 10px; height: 10px; border-radius: 50%;
+  }
+  .status-dot.green { color: var(--positive); }
+  .status-dot.green::before { background: var(--positive); }
+  .status-dot.red { color: var(--negative); }
+  .status-dot.red::before { background: var(--negative); }
+  .status-dot.amber { color: var(--warning); }
+  .status-dot.amber::before { background: var(--warning); }
+  .status-dot.grey { color: var(--grey-500); }
+  .status-dot.grey::before { background: var(--grey-400); }
+
+  /* ===== TIMELINE / CHECKLIST ===== */
+  .timeline-list { display: flex; flex-direction: column; gap: 10px; }
+  .timeline-item {
+    background: var(--white); border-radius: 10px; border: 1px solid var(--grey-300);
+    padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px;
+    transition: box-shadow .2s;
+  }
+  .timeline-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+  .timeline-check {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .timeline-check.done { background: var(--positive); color: white; }
+  .timeline-check.wip { background: var(--warning); color: white; }
+  .timeline-body { flex: 1; }
+  .timeline-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 2px; }
+  .timeline-detail { font-size: 12px; color: var(--grey-600); }
+  .timeline-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .tag {
+    display: inline-block; padding: 2px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag.date { background: var(--grey-200); color: var(--grey-600); }
+  .tag.bug { background: var(--negative-light); color: var(--negative); }
+  .tag.shipped { background: var(--positive-light); color: var(--positive); }
+  .tag.wip { background: var(--warning-light); color: var(--warning); }
+
+  /* ===== DESIGN CARDS ===== */
+  .design-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .design-card {
+    background: var(--white); border-radius: 12px; border: 1px solid var(--grey-300);
+    overflow: hidden; transition: box-shadow .2s, transform .2s;
+  }
+  .design-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); transform: translateY(-2px); }
+  .design-card img {
+    width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block;
+    border-bottom: 1px solid var(--grey-300); cursor: pointer;
+  }
+  .design-card .dc-body { padding: 16px; }
+  .design-card .dc-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .design-card .dc-obj { font-size: 12px; color: var(--grey-600); margin-bottom: 10px; line-height: 1.5; }
+
+  /* ===== IMPACT MAP ===== */
+  .impact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .impact-card {
+    background: var(--white); border-radius: 12px; border: 1px solid var(--grey-300);
+    padding: 24px; transition: box-shadow .2s;
+  }
+  .impact-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+  .impact-card .ic-team {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 12px; padding: 4px 12px;
+    border-radius: 6px; display: inline-block;
+  }
+  .impact-card.eng .ic-team { background: rgba(109,23,206,.08); color: var(--info); }
+  .impact-card.product .ic-team { background: var(--brand-light); color: var(--brand); }
+  .impact-card.ops .ic-team { background: var(--warning-light); color: var(--warning); }
+  .impact-card.leadership .ic-team { background: var(--negative-light); color: var(--negative); }
+  .impact-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .impact-card li {
+    font-size: 13px; color: var(--grey-700); line-height: 1.5;
+    padding-left: 18px; position: relative;
+  }
+  .impact-card li::before {
+    content: ''; position: absolute; left: 0; top: 7px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--grey-400);
+  }
+  .impact-card li strong { color: var(--dark); }
+
+  /* ===== BLOCKERS ===== */
+  .blocker-list { display: flex; flex-direction: column; gap: 10px; }
+  .blocker-item {
+    background: var(--white); border-radius: 10px; padding: 18px 20px;
+    border: 1px solid var(--grey-300); border-left: 4px solid var(--negative);
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .blocker-item.warn { border-left-color: var(--warning); }
+  .blocker-icon {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .blocker-item .blocker-icon { background: var(--negative-light); }
+  .blocker-item.warn .blocker-icon { background: var(--warning-light); }
+  .blocker-body { flex: 1; }
+  .blocker-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 2px; }
+  .blocker-desc { font-size: 12px; color: var(--grey-600); }
+
+  /* ===== PRIORITY KANBAN ===== */
+  .priority-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .priority-col h4 {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--grey-500); margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--grey-300);
+  }
+  .priority-col h4.clarity-h { border-bottom-color: var(--brand); color: var(--brand); }
+  .priority-col h4.system-h { border-bottom-color: var(--info); color: var(--info); }
+  .priority-items { display: flex; flex-direction: column; gap: 10px; }
+  .pri-card {
+    background: var(--white); border-radius: 10px; border: 1px solid var(--grey-300);
+    padding: 16px; transition: box-shadow .2s;
+  }
+  .pri-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+  .pri-card .pri-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; line-height: 1.4; }
+  .pri-card .pri-outcome {
+    font-size: 12px; font-weight: 700; padding: 4px 10px;
+    border-radius: 6px; display: inline-block;
+  }
+  .pri-card .pri-outcome.green { background: var(--positive-bg); color: var(--positive); }
+  .pri-card .pri-outcome.purple { background: var(--info-light); color: var(--info); }
+  .pri-card .pri-note { font-size: 11px; color: var(--grey-500); margin-top: 6px; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center; padding: 32px 24px; border-top: 1px solid var(--grey-300);
+    font-size: 13px; color: var(--grey-500);
+  }
+  .footer strong { color: var(--brand); }
+  .footer a { color: var(--brand); text-decoration: none; font-weight: 600; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ===== LIGHTBOX ===== */
+  .lb { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; cursor: zoom-out; }
+  .lb.open { opacity: 1; pointer-events: auto; }
+  .lb img { max-width: 94vw; max-height: 92vh; border-radius: 8px; box-shadow: 0 0 60px rgba(0,0,0,.4); transform: scale(.95); transition: transform .3s ease; }
+  .lb.open img { transform: scale(1); }
+  .lb-x { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .lb-x:hover { background: rgba(255,255,255,.3); }
+
+  /* ===== PRINT ===== */
+  @media print {
+    .header { position: static; }
+    .header-link { display: none; }
+    body { background: white; }
+    .section { break-inside: avoid; }
+    .tldr-card, .design-card, .impact-card, .pri-card, .timeline-item, .blocker-item {
+      box-shadow: none !important; transform: none !important;
+      border: 1px solid #ddd;
+    }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .header { padding: 16px; flex-wrap: wrap; gap: 12px; }
+    .container { padding: 20px 16px 48px; }
+    .tldr-grid, .design-grid, .priority-grid { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .scorecard table { font-size: 13px; }
+    .scorecard thead th, .scorecard tbody td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">Wiom</div>
+    <div class="header-sep"></div>
+    <div>
+      <div class="header-title">Weekly Brief — Anchored</div>
+      <div class="header-date">20 February 2026</div>
+    </div>
+  </div>
+  <a href="index.html" class="header-link">View Full Presentation &rarr;</a>
+</div>
+
+<div class="container">
+
+<!-- ===== 1. TL;DR ===== -->
+<div class="section">
+  <div class="section-label">TL;DR</div>
+  <div class="section-heading">3 Key Takeaways</div>
+  <div class="tldr-grid">
+    <div class="tldr-card green">
+      <div class="tldr-icon">&#x2193;</div>
+      <div class="tldr-metric">19% &rarr; 6%</div>
+      <div class="tldr-desc"><strong>Booking contamination</strong> dropped significantly. Cleanup actions are working — bug fixes + process changes showing results.</div>
+    </div>
+    <div class="tldr-card red">
+      <div class="tldr-icon">&#x2191;</div>
+      <div class="tldr-metric">3% &rarr; 16%</div>
+      <div class="tldr-desc"><strong>Install contamination</strong> rose sharply. Needs investigation — root cause unclear. Likely communication gaps during install flow.</div>
+    </div>
+    <div class="tldr-card green">
+      <div class="tldr-icon">&#x2714;</div>
+      <div class="tldr-metric">~15 &rarr; 0</div>
+      <div class="tldr-desc"><strong>Daily bugs dropped to zero</strong> across 3 critical fix clusters. System stability significantly improved this week.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2. SCORECARD ===== -->
+<div class="section">
+  <div class="section-label">Scorecard</div>
+  <div class="section-heading">Metric Status at a Glance</div>
+  <div class="scorecard">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Current</th>
+          <th>Trend</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric-name">Booking Clarity</td>
+          <td class="metric-val">Tracked</td>
+          <td class="trend">Chart in slide 2</td>
+          <td><span class="status-dot grey">Monitoring</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">Install Clarity</td>
+          <td class="metric-val">Tracked</td>
+          <td class="trend">Chart in slide 2</td>
+          <td><span class="status-dot grey">Monitoring</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">First Renewal Clarity</td>
+          <td class="metric-val">Tracked</td>
+          <td class="trend">Chart in slide 2</td>
+          <td><span class="status-dot grey">Monitoring</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">Booking Contamination</td>
+          <td class="metric-val" style="color:var(--positive)">6%</td>
+          <td class="trend">&darr; from 19%</td>
+          <td><span class="status-dot green">On Track</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">Install Contamination</td>
+          <td class="metric-val" style="color:var(--negative)">16%</td>
+          <td class="trend">&uarr; from 3%</td>
+          <td><span class="status-dot red">At Risk</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">Daily Bugs</td>
+          <td class="metric-val" style="color:var(--positive)">0</td>
+          <td class="trend">&darr; from ~15/day</td>
+          <td><span class="status-dot green">On Track</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">Data Accuracy</td>
+          <td class="metric-val" style="color:var(--positive)">99%</td>
+          <td class="trend">&uarr; from 91%</td>
+          <td><span class="status-dot green">On Track</span></td>
+        </tr>
+        <tr>
+          <td class="metric-name">Partner Confirmed</td>
+          <td class="metric-val">21%</td>
+          <td class="trend">6 exited of 227</td>
+          <td><span class="status-dot amber">In Progress</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== 3. WHAT GOT DONE ===== -->
+<div class="section">
+  <div class="section-label">This Week</div>
+  <div class="section-heading">What Got Done</div>
+  <div class="timeline-list">
+    <div class="timeline-item">
+      <div class="timeline-check done"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">Critical Bug Fixes — 3 Clusters Resolved</div>
+        <div class="timeline-detail">Customer app screen not loading, payment capture failure, rating bonus eligibility — all fixed. Daily bugs: ~7 &rarr; 0. Duplicate net box PUT fixed (~3 &rarr; 0). Ticket rating option restored (~5 &rarr; 0).</div>
+        <div class="timeline-tags"><span class="tag bug">BUG</span><span class="tag date">12 Feb</span><span class="tag date">15-17 Feb</span><span class="tag shipped">Fixed</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-check done"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">Partner Exit Option Released</div>
+        <div class="timeline-detail">21% partner status confirmed out of 227. 6 partners have exited.</div>
+        <div class="timeline-tags"><span class="tag date">11 Feb</span><span class="tag shipped">Live</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-check done"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">Device DB Migration — Backend Complete</div>
+        <div class="timeline-detail">Backend: 3.49L records migrated, 0 pending. Expected impact: data accuracy 91% &rarr; 99%.</div>
+        <div class="timeline-tags"><span class="tag date">18 Feb</span><span class="tag shipped">Done</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-check wip"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 6v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">Device DB Migration — Frontend In Progress</div>
+        <div class="timeline-detail">1L records, 678 partners completed. Remaining expected by 26 Feb.</div>
+        <div class="timeline-tags"><span class="tag date">19 Feb</span><span class="tag wip">In Progress</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-check done"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">Updated Onboarding Flow</div>
+        <div class="timeline-detail">Redesigned for clarity — user knows the offering and next steps.</div>
+        <div class="timeline-tags"><span class="tag date">11 Feb</span><span class="tag shipped">Shipped</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-check done"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">PayG Education for Partners / Rohit</div>
+        <div class="timeline-detail">Released — reducing confusion and increasing clarity around PayG construct.</div>
+        <div class="timeline-tags"><span class="tag shipped">Released</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-check wip"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 6v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div class="timeline-body">
+        <div class="timeline-title">Chat Suggestions</div>
+        <div class="timeline-detail">Contextual suggestions and handholding next steps in chat. Release date TBD.</div>
+        <div class="timeline-tags"><span class="tag wip">In Progress</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 4. DESIGN UPDATES ===== -->
+<div class="section">
+  <div class="section-label">Design</div>
+  <div class="section-heading">Design Updates — Before / After</div>
+  <div class="design-grid">
+    <div class="design-card">
+      <img src="slides2/slide-6.png" alt="Onboarding Flow" onclick="openLB(this.src)" loading="lazy">
+      <div class="dc-body">
+        <div class="dc-title">Updated Onboarding Flow</div>
+        <div class="dc-obj">User to know the offering clearly and next steps</div>
+        <span class="tag shipped">Shipped</span>
+      </div>
+    </div>
+    <div class="design-card">
+      <img src="slides2/slide-7.png" alt="Chat Suggestions" onclick="openLB(this.src)" loading="lazy">
+      <div class="dc-body">
+        <div class="dc-title">Chat Suggestions</div>
+        <div class="dc-obj">Contextual suggesting and handholding the next steps</div>
+        <span class="tag wip">In Progress</span>
+      </div>
+    </div>
+    <div class="design-card">
+      <img src="slides2/slide-8.png" alt="PayG Education" onclick="openLB(this.src)" loading="lazy">
+      <div class="dc-body">
+        <div class="dc-title">PayG Education for Partner / Rohit</div>
+        <div class="dc-obj">Reducing confusion and increasing clarity around PayG</div>
+        <span class="tag shipped">Released</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 5. IMPACT MAP ===== -->
+<div class="section">
+  <div class="section-label">Impact</div>
+  <div class="section-heading">What This Means For You</div>
+  <div class="impact-grid">
+    <div class="impact-card eng">
+      <div class="ic-team">Engineering</div>
+      <ul>
+        <li><strong>Bug backlog cleared</strong> — 3 critical clusters fixed, daily bugs at zero</li>
+        <li><strong>DB migration in final stretch</strong> — backend done, frontend by 26 Feb</li>
+        <li>Next: installation config bugs + device tracking process gaps</li>
+      </ul>
+    </div>
+    <div class="impact-card product">
+      <div class="ic-team">Product</div>
+      <ul>
+        <li><strong>Clarity metrics</strong> now being tracked (booking, install, renewal)</li>
+        <li><strong>Onboarding redesigned</strong> — shipped 11 Feb</li>
+        <li>PayG education live — measure impact on PTL calls</li>
+      </ul>
+    </div>
+    <div class="impact-card ops">
+      <div class="ic-team">Ops / Partner Team</div>
+      <ul>
+        <li><strong>Partner exit flowing</strong> — 21% confirmed, 6 exited</li>
+        <li>Communication fixes for partner/Rohit during install — coming next</li>
+        <li>New rule: INR 300 at time of installation — upcoming</li>
+      </ul>
+    </div>
+    <div class="impact-card leadership">
+      <div class="ic-team">Leadership</div>
+      <ul>
+        <li><strong>Install contamination rising</strong> (3% &rarr; 16%) — needs discussion and action plan</li>
+        <li>3 system items need ETAs — who owns timelines?</li>
+        <li>Chat Suggestions release date still TBD</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 6. DECISIONS & BLOCKERS ===== -->
+<div class="section">
+  <div class="section-label">Attention Needed</div>
+  <div class="section-heading">Decisions &amp; Blockers</div>
+  <div class="blocker-list">
+    <div class="blocker-item">
+      <div class="blocker-icon">!</div>
+      <div class="blocker-body">
+        <div class="blocker-title">Install contamination trending up — 3% &rarr; 16%</div>
+        <div class="blocker-desc">Root cause unclear. Need investigation: is it communication gaps during install, process issues, or system bugs? Action plan needed this week.</div>
+      </div>
+    </div>
+    <div class="blocker-item warn">
+      <div class="blocker-icon">?</div>
+      <div class="blocker-body">
+        <div class="blocker-title">ETA missing on 3 system items</div>
+        <div class="blocker-desc">INR 300 rule at installation, communication fixes during install, and device tracking bugs all show "ETA XYZ". Who owns these timelines?</div>
+      </div>
+    </div>
+    <div class="blocker-item warn">
+      <div class="blocker-icon">?</div>
+      <div class="blocker-body">
+        <div class="blocker-title">Chat Suggestions release date TBD</div>
+        <div class="blocker-desc">Design is in progress. When is the expected release? Clarity actions depend on this going live.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 7. NEXT WEEK'S FOCUS ===== -->
+<div class="section">
+  <div class="section-label">Next Up</div>
+  <div class="section-heading">High Priority — Next Week</div>
+  <div class="priority-grid">
+    <div class="priority-col">
+      <h4 class="clarity-h">Clarity</h4>
+      <div class="priority-items">
+        <div class="pri-card">
+          <div class="pri-title">Delayed Installs Messaging</div>
+          <div class="pri-outcome green">+15pp Install Clarity</div>
+        </div>
+        <div class="pri-card">
+          <div class="pri-title">Chat-based Help During Booking Flow</div>
+          <div class="pri-outcome green">+10pp Booking Clarity</div>
+        </div>
+      </div>
+    </div>
+    <div class="priority-col">
+      <h4 class="system-h">System — Rules &amp; Comms</h4>
+      <div class="priority-items">
+        <div class="pri-card">
+          <div class="pri-title">New Rule — INR 300 at Installation</div>
+          <div class="pri-outcome purple">+X% Slot &rarr; Install</div>
+          <div class="pri-note">Diagnosis of why Rohits — ETA needed</div>
+        </div>
+        <div class="pri-card">
+          <div class="pri-title">Communication Fixes to Partner/Rohit During Install</div>
+          <div class="pri-outcome purple">+X% Slot Confirmation</div>
+          <div class="pri-note">ETA needed</div>
+        </div>
+      </div>
+    </div>
+    <div class="priority-col">
+      <h4 class="system-h">System — Bugs</h4>
+      <div class="priority-items">
+        <div class="pri-card">
+          <div class="pri-title">Installation Bugs at Configuration</div>
+          <div class="pri-outcome green">Zero Calls During Install</div>
+        </div>
+        <div class="pri-card">
+          <div class="pri-title">Device Tracking Process Gap Bugs</div>
+          <div class="pri-outcome purple">&darr; Bug Count/Day</div>
+          <div class="pri-note">ETA needed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .container -->
+
+<div class="footer">
+  <strong>Wiom Anchored</strong> &mdash; Weekly Brief &bull; 20 Feb 2026 &bull; <a href="index.html">View Full Presentation</a>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="closeLB()">
+  <button class="lb-x"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></button>
+  <img id="lbImg" src="">
+</div>
+
+<script>
+  const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
+  function openLB(src) { lbImg.src = src; lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+</script>
+</body>
+</html>
