@@ -113,6 +113,48 @@
   .def-card .def-sub { font-size: 12px; font-weight: 600; color: var(--brand); margin-bottom: 12px; }
   .def-card p { font-size: 13px; color: var(--grey-500); line-height: 1.6; font-style: italic; }
 
+  /* ===== ACTION TABLE ===== */
+  .action-table { width: 100%; max-width: 1100px; border-collapse: separate; border-spacing: 0; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 16px 48px rgba(0,0,0,.3); }
+  .action-table thead th {
+    background: rgba(217,0,141,.08); padding: 16px 24px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #ff66c9; text-align: left; border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .action-table thead th:first-child { width: 160px; }
+  .action-table tbody td {
+    padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,.05);
+    font-size: 14px; line-height: 1.6; vertical-align: top;
+    background: rgba(255,255,255,.02); transition: background .2s;
+  }
+  .action-table tbody tr:last-child td { border-bottom: none; }
+  .action-table tbody tr:hover td { background: rgba(255,255,255,.05); }
+  .action-table .cat-label {
+    font-size: 13px; font-weight: 700; color: white;
+  }
+  .action-table .action-text { color: var(--grey-400); }
+  .action-table .action-text strong { color: white; font-weight: 600; }
+  .action-table .outcome-text { color: var(--grey-500); }
+  .action-table .outcome-text strong { color: var(--positive); font-weight: 800; }
+  .action-table .date-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 6px;
+    background: rgba(255,255,255,.06); font-size: 11px; font-weight: 600;
+    color: var(--grey-500); margin-top: 4px;
+  }
+  .action-table .bug-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 6px;
+    background: rgba(224,30,0,.12); font-size: 10px; font-weight: 700;
+    color: #ff6b5a; letter-spacing: .5px; margin-right: 6px;
+  }
+  .action-table .metric-pill {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 10px;
+    background: rgba(0,128,67,.1); border: 1px solid rgba(0,128,67,.2);
+    font-size: 14px; font-weight: 800; color: var(--positive);
+  }
+  @media (max-width: 768px) {
+    .action-table thead th, .action-table tbody td { padding: 12px 14px; font-size: 13px; }
+    .action-table thead th:first-child { width: 100px; }
+  }
+
   /* ===== PRIORITY CARDS ===== */
   .prio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 14px; max-width: 1100px; width: 100%; }
   .pcard { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 24px; transition: all .3s; display: flex; flex-direction: column; gap: 10px; }
@@ -239,20 +281,80 @@
 <section class="slide" id="actions-clarity" style="background:#0d0919;">
   <div class="s-label rv">03 / Key Actions</div>
   <h2 class="s-heading rv d1">Clarity Actions</h2>
-  <div class="img-frame rv d2" onclick="openLB(this.querySelector('img').src)">
-    <img src="slides2/slide-4.png" alt="Key Actions - Clarity" loading="lazy">
-    <div class="zoom-btn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
-  </div>
+  <table class="action-table rv d2">
+    <thead>
+      <tr><th>Category</th><th>Actions</th><th>Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="3"><span class="cat-label">Clarity</span></td>
+        <td class="action-text"><strong>Updated Onboarding Flow</strong><br><span class="date-tag">11 Feb</span></td>
+        <td class="outcome-text">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>Chat Suggestions</strong><br><span class="date-tag">XX Feb</span></td>
+        <td class="outcome-text">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>PayG Education for Partners / Rohit</strong> &mdash; Released<br><span class="date-tag">XX Feb</span></td>
+        <td class="outcome-text">Reduction in PTL calls regarding construct?</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- ========== 5. KEY ACTIONS — SYSTEM ========== -->
 <section class="slide" id="actions-system" style="background:#0b0816;">
   <div class="s-label rv">04 / Key Actions</div>
   <h2 class="s-heading rv d1">System Completeness</h2>
-  <div class="img-frame rv d2" onclick="openLB(this.querySelector('img').src)">
-    <img src="slides2/slide-5.png" alt="Key Actions - System Completeness" loading="lazy">
-    <div class="zoom-btn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+  <div class="stats-strip rv d2">
+    <div class="stat-pill"><div class="stat-num green" data-target="0" data-from="7">7</div><div class="stat-desc">Bugs/day<br>Target</div></div>
+    <div class="stat-pill"><div class="stat-num brand">21%</div><div class="stat-desc">Partner<br>Confirmed</div></div>
+    <div class="stat-pill"><div class="stat-num purple" data-target="99" data-from="91">91</div><div class="stat-desc">% Data<br>Accuracy</div></div>
+    <div class="stat-pill"><div class="stat-num green">3.49L</div><div class="stat-desc">Records<br>Migrated</div></div>
   </div>
+  <table class="action-table rv d3">
+    <thead>
+      <tr><th>Category</th><th>Actions</th><th>Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="5"><span class="cat-label">System Completeness</span></td>
+        <td class="action-text">
+          <span class="bug-tag">BUG</span><strong>Customer App Screen not loading</strong><br>
+          <span class="bug-tag">BUG</span><strong>Payment captured but not reflected in Razorpay</strong><br>
+          <span class="bug-tag">BUG</span><strong>Rating Bonus not eligible in partner app</strong><br>
+          <span class="date-tag">12 Feb</span> <span class="date-tag">15 Feb</span> <span class="date-tag">17 Feb</span>
+        </td>
+        <td class="outcome-text"><span class="metric-pill">~7 &rarr; 0</span><br><br>bugs per day</td>
+      </tr>
+      <tr>
+        <td class="action-text"><span class="bug-tag">BUG</span><strong>Duplicate Net Box PUT</strong><br><span class="date-tag">16 Feb</span></td>
+        <td class="outcome-text"><span class="metric-pill">~3 &rarr; 0</span><br><br>bugs per day</td>
+      </tr>
+      <tr>
+        <td class="action-text"><span class="bug-tag">BUG</span><strong>Ticket rating option not showing / Disabled in Customer App</strong></td>
+        <td class="outcome-text"><span class="metric-pill">~5 &rarr; 0</span><br><br>bugs per day</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>Partner Option to Exit</strong><br><span class="date-tag">11 Feb</span></td>
+        <td class="outcome-text"><strong style="color:white;">21%</strong> Partner status confirmed / 227<br>6 exited</td>
+      </tr>
+      <tr>
+        <td class="action-text">
+          <strong>Device DB Migration</strong><br>
+          &bull; Backend Migration Complete<br>
+          &bull; Front end Migration<br>
+          <span class="date-tag">18 Feb</span> <span class="date-tag">19 Feb</span>
+        </td>
+        <td class="outcome-text">
+          Backend &mdash; <strong>3.49 L</strong> completed, 0 Pending<br>
+          Front end &mdash; <strong>1 L</strong>, 678 partners completed, rest by 26 Feb<br><br>
+          Expected impact &mdash; Data accuracy <strong>91% &rarr; 99%</strong>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- ========== 6. ONBOARDING FLOW ========== -->
@@ -306,20 +408,39 @@
     <div class="stat-pill"><div class="stat-num green">+10pp</div><div class="stat-desc">Booking Clarity<br>Target</div></div>
     <div class="stat-pill"><div class="stat-num purple">Zero</div><div class="stat-desc">Install Calls<br>Target</div></div>
   </div>
-  <div class="prio-grid rv d3">
-    <div class="pcard"><div class="pcard-cat clarity">Clarity</div><div class="pcard-action">Delayed Installs Messaging</div><div class="pcard-outcome"><span class="pcard-metric">+15pp</span>Installation Clarity</div></div>
-    <div class="pcard"><div class="pcard-cat clarity">Clarity</div><div class="pcard-action">Chat-based Help During Booking Flow</div><div class="pcard-outcome"><span class="pcard-metric">+10pp</span>Booking Clarity</div></div>
-    <div class="pcard"><div class="pcard-cat system">System</div><div class="pcard-action">New Rule &mdash; INR 300 at Installation<br>Diagnosis of why Rohits &mdash; ETA XYZ</div><div class="pcard-outcome"><span class="pcard-metric">+X%</span>Slot Confirmed &rarr; Installed Drop</div></div>
-    <div class="pcard"><div class="pcard-cat system">System</div><div class="pcard-action">Communication Fixes to Partner/Rohit during Install &mdash; ETA XYZ</div><div class="pcard-outcome"><span class="pcard-metric">+X%</span>Slot Confirmation / Rohit Assignment</div></div>
-    <div class="pcard"><div class="pcard-cat system">System</div><div class="pcard-action">Installation Bugs at Configuration</div><div class="pcard-outcome"><span class="pcard-metric">Zero</span>Calls during installation</div></div>
-    <div class="pcard"><div class="pcard-cat system">System</div><div class="pcard-action">Device Tracking Process Gap Bugs &mdash; ETA XYZ</div><div class="pcard-outcome"><span class="pcard-metric">&darr;</span>Reduction in XX bugs per day</div></div>
-  </div>
-  <div style="margin-top:32px;">
-    <div class="img-frame rv d4" onclick="openLB(this.querySelector('img').src)">
-      <img src="slides2/slide-9.png" alt="High Priority Areas Table" loading="lazy">
-      <div class="zoom-btn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
-    </div>
-  </div>
+  <table class="action-table rv d3">
+    <thead>
+      <tr><th>Category</th><th>Actions</th><th>Expected Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2"><span class="cat-label" style="color:#ff66c9;">Clarity</span></td>
+        <td class="action-text"><strong>Delayed Installs Messaging</strong></td>
+        <td class="outcome-text"><span class="metric-pill">+15pp</span><br><br>Installation Clarity</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>Chat based help during Booking Flow</strong></td>
+        <td class="outcome-text"><span class="metric-pill">+10pp</span><br><br>Booking Clarity</td>
+      </tr>
+      <tr>
+        <td rowspan="4"><span class="cat-label" style="color:#b07aff;">System Completeness</span></td>
+        <td class="action-text"><strong>New Rule &mdash; INR 300 at time of installation</strong><br>Diagnosis of why Rohits &mdash; ETA XYZ</td>
+        <td class="outcome-text"><span class="metric-pill">+X%</span><br><br>Slot confirmed &rarr; Installed Drop</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>Communication Fixes to Partner / Rohit during Install</strong> &mdash; ETA XYZ</td>
+        <td class="outcome-text"><span class="metric-pill">+X%</span><br><br>Slot confirmation / Rohit assignment</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>Installation Bugs at Configuration</strong></td>
+        <td class="outcome-text"><span class="metric-pill">Zero</span><br><br>Calls during installation</td>
+      </tr>
+      <tr>
+        <td class="action-text"><strong>Device Tracking Process Gap Bugs</strong> &mdash; ETA XYZ</td>
+        <td class="outcome-text"><span class="metric-pill">&darr;</span><br><br>Reduction in XX bugs per day</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <footer><strong>Wiom Anchored</strong> &mdash; Actions Update &bull; 20 Feb 2026</footer>
